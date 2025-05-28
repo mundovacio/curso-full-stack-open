@@ -21,6 +21,16 @@ const Feedback = ({
     </section>
   )
 }
+
+const StadisticsTableRow = ({ label, value }) => {
+  return (
+    <tr>
+      <td>{label}</td>
+      <td>{value}</td>
+    </tr>
+  )
+}
+
 const Stadistics = ({ stats }) => {
 
   const all = stats.reduce((acc, { value }) => acc + value, 0)
@@ -34,24 +44,10 @@ const Stadistics = ({ stats }) => {
       {all ?
         <table>
           <tbody>
-            {stats.map(val => (
-              <tr key={val.name}>
-                <td>{val.name}</td>
-                <td>{val.value}</td>
-              </tr>
-            ))}
-            <tr >
-              <td>all</td>
-              <td>{all}</td>
-            </tr>
-            <tr >
-              <td>average</td>
-              <td>{average}</td>
-            </tr>
-            <tr >
-              <td>positive</td>
-              <td>{positive} %</td>
-            </tr>
+            {stats.map(({ name, value }) => <StadisticsTableRow key={name} label={name} value={value} />)}
+             <StadisticsTableRow label={'all'} value={all} />
+             <StadisticsTableRow label={'average'} value={average} />
+             <StadisticsTableRow label={'positive'} value={positive} />
           </tbody>
         </table>
         :
