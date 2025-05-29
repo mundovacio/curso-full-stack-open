@@ -1,82 +1,21 @@
-
-import { useState } from 'react'
-
-const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>
-
-const Feedback = ({
-  onGoodClick,
-  onNeutralClick,
-  onBadClick
-}) => {
-  return (
-    <section>
-      <header>
-        <h2>Feedback</h2>
-      </header>
-      <div>
-        <Button onClick={onGoodClick} text="good" />
-        <Button onClick={onNeutralClick} text="neutral" />
-        <Button onClick={onBadClick} text="bad" />
-      </div>
-    </section>
-  )
-}
-
-const StadisticsTableRow = ({ label, value }) => {
-  return (
-    <tr>
-      <td>{label}</td>
-      <td>{value}</td>
-    </tr>
-  )
-}
-
-const Stadistics = ({ stats }) => {
-
-  const all = stats.reduce((acc, { value }) => acc + value, 0)
-  const average = (stats.filter(({ name }) => name === 'good')[0].value - stats.filter(({ name }) => name === 'bad')[0].value) / all || 0
-  const positive = stats.filter(({ name }) => name === 'good')[0].value / all * 100 || 0
-  return (
-    <section>
-      <header>
-        <h2>Stadistics</h2>
-      </header>
-      {all ?
-        <table>
-          <tbody>
-            {stats.map(({ name, value }) => <StadisticsTableRow key={name} label={name} value={value} />)}
-             <StadisticsTableRow label={'all'} value={all} />
-             <StadisticsTableRow label={'average'} value={average} />
-             <StadisticsTableRow label={'positive'} value={positive} />
-          </tbody>
-        </table>
-        :
-        <p>No feedback given</p>
-      }
-
-    </section>
-  )
-}
-
+const Header = ({ course }) => <h1>{course}</h1>
+const Part = ({ part: { name, exercises } }) => <li><p>{name} - {exercises} exercices</p></li>
+const Content = ({ parts }) => <ul>{parts.map(part => <Part part={part} key={part.name + part.exercises} />)}</ul>
+const Total = ({ totalExercises }) => <p>Number of exercises {totalExercises}</p>
 
 const App = () => {
-  // save clicks of each button to its own state
-  const [good, setGood] = useState(0)
-  const [neutral, setNeutral] = useState(0)
-  const [bad, setBad] = useState(0)
-
+  const course = 'Half Stack application development'
+  const parts = [
+    { name: 'Fundamentals of React', exercises: 10 },
+    { name: 'Using props to pass data', exercises: 7 },
+    { name: 'State of a component', exercises: 14 },
+  ]
+  const totalExercises = parts.reduce((acc, part) => acc + part.exercises, 0)
   return (
     <>
-      <Feedback
-        onGoodClick={() => setGood(good + 1)}
-        onNeutralClick={() => setNeutral(neutral + 1)}
-        onBadClick={() => setBad(bad + 1)}
-      />
-      <Stadistics stats={[
-        { name: "good", value: good },
-        { name: "neutral", value: neutral },
-        { name: "bad", value: bad },
-      ]} />
+      <Header course={course} />
+      <Content parts={parts} />
+      <Total totalExercises={totalExercises} />
     </>
   )
 }
