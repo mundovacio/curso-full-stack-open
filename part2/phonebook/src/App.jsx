@@ -9,8 +9,18 @@ const App = () => {
   const addPerson = (e) => {
     e.preventDefault()
 
+    if(!newName) {
+      alert('New name must not be empty');
+      return
+    }
+
+    if([...persons].map(({name}) => name.toLowerCase().trim()).includes(newName.toLowerCase().trim())) {
+      alert(`${newName} already exist in the list`)
+      return
+    }
+
     const objPerson = {
-      name: newName
+      name: newName.trim()
     }
 
     setPersons([...persons, objPerson])
