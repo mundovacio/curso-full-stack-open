@@ -1,8 +1,7 @@
 
-function Person({ data: { name, number } }) {
+function Person({ data: { name, number }, onClick }) {
     return (
-        <li >{name} | {number}</li>
-
+        <li >{name} | {number} <button onClick={onClick}>Remove</button></li>
     )
 }
 

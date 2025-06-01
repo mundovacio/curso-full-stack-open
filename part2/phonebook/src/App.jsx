@@ -69,6 +69,19 @@ const App = () => {
     setNewFilter(value)
   }
 
+  const handleRemovePerson = id => {
+    const { name, number } = persons.find(p => p.id === id);
+    if (window.confirm(`You are about to remove ${name} with the number ${number}. Are you sure?`)) {
+      personsService
+        .remove(id)
+        .then(() => {
+          setPersons(persons.filter(person => person.id !== id));
+        });
+    } else {
+      console.log('The person will remain on your list :)');
+    }
+  }
+
   const personsFiltered = persons
     .filter(({ name }) => name.toLowerCase().trim().indexOf(newFilter.toLowerCase().trim()) > -1)
 
@@ -85,7 +98,7 @@ const App = () => {
         onSubmit={addPerson}
       />
       <h2>Numbers</h2>
-      <Persons persons={personsFiltered} />
+      <Persons persons={personsFiltered} onRemovePerson={handleRemovePerson} />
     </>
   )
 }
