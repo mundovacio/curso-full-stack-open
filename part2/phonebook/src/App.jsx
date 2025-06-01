@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import axios from 'axios'
+import personsService from './services/persons'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
@@ -11,9 +11,10 @@ const App = () => {
   const [newFilter, setNewFilter] = useState('')
 
   const hookGetPersons = () => {
-    axios.get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data)
+    personsService
+      .getAll()
+      .then(returnedPersons => {
+        setPersons(returnedPersons)
       })
   }
 
@@ -38,19 +39,22 @@ const App = () => {
     }
 
     if ([...persons].map(({ number }) => number.toLowerCase().trim()).includes(newNumber.toLowerCase().trim())) {
-      alert(`${newNumber} already exist in the list for ${persons.filter(({ number }) => number.toLowerCase().trim() === newNumber.toLowerCase().trim())[0].name}`)
+      alert(`${newNumber} already exist in the list for ${persons.find(({ number }) => number.toLowerCase().trim() === newNumber.toLowerCase().trim()).name}`)
       return
     }
 
     const objPerson = {
       name: newName.trim(),
       number: newNumber.trim(),
-      id: String(persons.length + 1)
     }
 
-    setPersons([...persons, objPerson])
-    setNewName('')
-    setNewNumber('')
+    personsService
+      .create(objPerson)
+      .then(returnedPerson => {
+        setPersons([...persons, returnedPerson])
+        setNewName('')
+        setNewNumber('')
+      })
   }
 
   const handleNameChange = ({ target: { value } }) => {
