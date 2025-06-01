@@ -33,19 +33,45 @@ const App = () => {
       return
     }
 
+    const objPerson = {
+      name: newName.trim(),
+      number: newNumber.trim(),
+    }
+
     if ([...persons].map(({ name }) => name.toLowerCase().trim()).includes(newName.toLowerCase().trim())) {
-      alert(`${newName} already exist in the list`)
+      // person name exist, confirm update number
+      const matchedPerson = persons.find(({ name }) => name.toLowerCase().trim() === newName.toLowerCase().trim())
+      if (window.confirm(`${matchedPerson.name} already exist, would you like to update the phone number?\ncurrent: ${matchedPerson.number} \nnew: ${objPerson.number}`)) {
+        objPerson.name = matchedPerson.name;
+        personsService
+          .update(matchedPerson.id, objPerson)
+          .then(returnedPerson => {
+            setPersons(persons.map(person => person.id == matchedPerson.id ? returnedPerson : person))
+            setNewName('')
+            setNewNumber('')
+          }).catch((error) => {
+            console.log('error: ', error);
+          })
+      }
       return
     }
 
     if ([...persons].map(({ number }) => number.toLowerCase().trim()).includes(newNumber.toLowerCase().trim())) {
-      alert(`${newNumber} already exist in the list for ${persons.find(({ number }) => number.toLowerCase().trim() === newNumber.toLowerCase().trim()).name}`)
+      // person number exist, confirm update name
+      const matchedPerson = persons.find(({ number }) => number.toLowerCase().trim() === newNumber.toLowerCase().trim())
+      if (window.confirm(`${matchedPerson.name} has the same phone number, would you like to update the name?\ncurrent: ${matchedPerson.name} \nnew: ${objPerson.name}`)) {
+        objPerson.number = matchedPerson.number;
+        personsService
+          .update(matchedPerson.id, objPerson)
+          .then(returnedPerson => {
+            setPersons(persons.map(person => person.id == matchedPerson.id ? returnedPerson : person))
+            setNewName('')
+            setNewNumber('')
+          }).catch((error) => {
+            console.log('error: ', error);
+          })
+      }
       return
-    }
-
-    const objPerson = {
-      name: newName.trim(),
-      number: newNumber.trim(),
     }
 
     personsService
@@ -77,8 +103,6 @@ const App = () => {
         .then(() => {
           setPersons(persons.filter(person => person.id !== id));
         });
-    } else {
-      console.log('The person will remain on your list :)');
     }
   }
 
