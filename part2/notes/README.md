@@ -1,31 +1,46 @@
-# Notes frontend
+# Notes App (Part 2)
 
-This repository contains the frontend developed from part 2 onwards in the Full Stack course. The different stages of the application are saved in different branches.
+This project is a simple notes application built with React and Vite as part of the [Full Stack Open](https://fullstackopen.com/) course by the University of Helsinki.
 
-Notes frontend is a simple web application for saving notes. It is developed using React and Vite. From part 3 of the course onwards, it is intended to be used with a separate backend, which is available in the repository https://github.com/fullstack-hy2020/part3-notes-backend.
+## Overview
 
-## Running the application on your own machine
+The Notes app allows users to add, view, and mark notes as important. It demonstrates the use of React state, effects, and communication with a backend server (JSON Server).
 
-You can easily try out the application on your own machine. The current version of the application is developed using Node version 22.3.0. For the best experience, it is recommended to use the same major version of Node, but the application will likely work with other Node versions as well.
+## How to Run
 
-Follow these steps to run the application:
+1. **Install dependencies:**
 
-1. Clone this repository to your own machine with the command `git clone https://github.com/fullstack-hy2020/part2-notes-frontend.git`
+    ```sh
+    npm install
+    ```
 
-2. Navigate to the cloned repository with the command `cd part2-notes-frontend`
+2. **Start the development server:**
 
-3. Switch to the desired branch with the command `git switch <branch-name>`
+    ```sh
+    npm run dev
+    ```
 
-4. Install the node modules with the command `npm install`
+    The app will be available at [http://localhost:5173](http://localhost:5173).
 
-5. Start the application with the command `npm run dev`. By default, the application will start on port 5173, so it will be available at http://localhost:5173/
+3. **Start the JSON server for backend (in a separate terminal):**
 
-6. If you are in branches part2-4 to part2-8, additionally start the JSON server by running the command `npm run server` in a separate terminal window
+    ```sh
+    npm run server
+    ```
 
-From part 3 onwards, the frontend is used with a [separate backend](https://github.com/fullstack-hy2020/part3-notes-backend).
+    This will start a mock backend at [http://localhost:3001/notes](http://localhost:3001/notes).
 
-## How to switch between branches?
+## Submitting Exercises
 
-The different stages of the application are saved in different branches. Switching branches changes the code in your working directory to match the state of the branch you switched to. This allows you to work on different versions of the application without affecting the codebase of other branches.
+Submit your completed exercises through the official portal:  
+[Full Stack Open Submission Portal](https://studies.cs.helsinki.fi/stats/courses/fullstackopen/submissions)
 
-You can switch to the desired branch by running the command `git switch <branch-name>`, for example `git switch part2-2`. Note that new dependencies are added to the application as development progresses, so after switching branches, it is safest to run the command `npm install` to ensure that any missing node modules will be installed on your machine.
+## Additional Notes
+
+- Node.js version: 18.x or newer is recommended.
+- The backend uses [JSON Server](https://github.com/typicode/json-server) for local development.
+- For later parts, you may need to connect to a real backend as described in the course material.
+
+---
+
+Happy coding!

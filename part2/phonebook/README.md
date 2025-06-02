@@ -1,12 +1,46 @@
-# React + Vite
+# Phonebook App (Part 2)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a phonebook application built with React and Vite as part of the [Full Stack Open](https://fullstackopen.com/) course by the University of Helsinki.
 
-Currently, two official plugins are available:
+## Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The Phonebook app allows users to add, update, filter, and remove contacts with names and phone numbers. It demonstrates React state management, effects, form handling, and communication with a backend server (JSON Server).
 
-## Expanding the ESLint configuration
+## How to Run
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1. **Install dependencies:**
+
+    ```sh
+    npm install
+    ```
+
+2. **Start the development server:**
+
+    ```sh
+    npm run dev
+    ```
+
+    The app will be available at [http://localhost:5173](http://localhost:5173).
+
+3. **Start the JSON server for backend (in a separate terminal):**
+
+    ```sh
+    npm run server
+    ```
+
+    This will start a mock backend at [http://localhost:3001/persons](http://localhost:3001/persons).
+
+## Submitting Exercises
+
+Submit your completed exercises through the official portal:  
+[Full Stack Open Submission Portal](https://studies.cs.helsinki.fi/stats/courses/fullstackopen/submissions)
+
+## Additional Notes
+
+- Node.js version: 18.x or newer is recommended.
+- The backend uses [JSON Server](https://github.com/typicode/json-server) for local development.
+- For later parts, you may need to connect to a real backend as described in the course material.
+
+---
+
+Happy coding!
