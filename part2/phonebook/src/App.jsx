@@ -3,12 +3,23 @@ import personsService from './services/persons'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
+import Notification from './components/Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
+  const [newNotification, setNewNotification] = useState({ message: null, isError: false })
+
+  useEffect(() => {
+    if (newNotification.message) {
+      const timer = setTimeout(() => {
+        setNewNotification({ message: null, isError: false })
+      }, 5000)
+      return () => clearTimeout(timer)
+    }
+  }, [newNotification])
 
   const hookGetPersons = () => {
     personsService
@@ -24,12 +35,12 @@ const App = () => {
     e.preventDefault()
 
     if (!newName) {
-      alert('Name must not be empty');
+      setNewNotification({ message: 'Name must not be empty', isError: true })
       return
     }
 
     if (!newNumber) {
-      alert('Number must not be empty');
+      setNewNotification({ message: 'Number must not be empty', isError: true })
       return
     }
 
@@ -47,10 +58,12 @@ const App = () => {
           .update(matchedPerson.id, objPerson)
           .then(returnedPerson => {
             setPersons(persons.map(person => person.id == matchedPerson.id ? returnedPerson : person))
+            setNewNotification({ message: `Update phone number for ${returnedPerson.name}`, isError: false })
             setNewName('')
             setNewNumber('')
           }).catch((error) => {
             console.log('error: ', error);
+            setNewNotification({ message: `Error on updating phone number`, isError: true })
           })
       }
       return
@@ -65,10 +78,12 @@ const App = () => {
           .update(matchedPerson.id, objPerson)
           .then(returnedPerson => {
             setPersons(persons.map(person => person.id == matchedPerson.id ? returnedPerson : person))
+            setNewNotification({ message: `Update name for the number ${returnedPerson.number}`, isError: false })
             setNewName('')
             setNewNumber('')
           }).catch((error) => {
             console.log('error: ', error);
+            setNewNotification({ message: `Error updating name`, isError: true })
           })
       }
       return
@@ -78,8 +93,12 @@ const App = () => {
       .create(objPerson)
       .then(returnedPerson => {
         setPersons([...persons, returnedPerson])
+        setNewNotification({ message: `${returnedPerson.name} added to your phonebook`, isError: false })
         setNewName('')
         setNewNumber('')
+      }).catch((error) => {
+        console.log('error: ', error);
+        setNewNotification({ message: `Error adding new contact.`, isError: true })
       })
   }
 
@@ -101,6 +120,7 @@ const App = () => {
       personsService
         .remove(id)
         .then(() => {
+          setNewNotification({ message: `${name} removed from your phonebook list`, isError: false })
           setPersons(persons.filter(person => person.id !== id));
         });
     }
@@ -112,6 +132,7 @@ const App = () => {
   return (
     <>
       <h1>Phonebook</h1>
+      <Notification message={newNotification.message} isError={newNotification.isError} />
       <Filter value={newFilter} onChange={handleFilterChange} />
       <h2>Add new contact</h2>
       <PersonForm
