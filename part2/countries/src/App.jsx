@@ -62,10 +62,11 @@ function App() {
     setCountry(exactMatch || null)
   }
 
-  const filterCountries = (name) =>
-    allCountries?.filter(({ name: { common } }) =>
+  const filterCountries = (name) => {
+    return allCountries?.filter(({ name: { common } }) =>
       common.toLowerCase().includes(name.toLowerCase().trim())
     )
+  }
 
   const countries = filterCountries(searchValue)
 
@@ -76,15 +77,18 @@ function App() {
       <Notification message={notification.message} isError={notification.isError} />
 
       {country ? <Country data={country} /> :
-        countries && (
-          countries.length === 1 ?
-            <Country data={countries[0]} />
-            :
-            countries.length <= 10 ?
-              <CountriesMatched countries={countries} onClick={handleShowBtnClick} />
+        searchValue && (
+          countries?.length ?
+            countries.length === 1 ?
+              <Country data={countries[0]} />
               :
-              <p>Too many matches, specify another filter</p>
-        )
+              countries.length <= 10 ?
+                <CountriesMatched countries={countries} onClick={handleShowBtnClick} />
+                :
+                <p>Too many matches, specify another filter</p>
+            :
+            <p>No countries found</p>
+          )
       }
     </>
   )

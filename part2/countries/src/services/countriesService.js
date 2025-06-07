@@ -4,11 +4,10 @@ const getAll =  () => {
     return axios.get(`${baseURL}/all`)
         .then(response => response.data)
 }
-const get =  (country) => {
+const get = (country) => {
     return axios.get(`${baseURL}/name/${country}`)
         .then(response => response.data)
 }
-
 
 export default {
     getAll,
