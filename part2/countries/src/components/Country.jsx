@@ -1,0 +1,22 @@
+function Country({ data }) {
+
+  console.log(data);
+
+  return (
+    <>
+      <h2>{data.name.common}</h2>
+      <p>Capital: {data.capital[0]}</p>
+      <p>Area: {data.area}</p>
+
+      <h3>Languages</h3>
+      <ul>
+      {Object.values(data.languages).map(lang => <li key={lang}>{lang}</li>)}
+      </ul>
+
+      <img src={data.flags.png} alt={data.flags.alt} />
+
+    </>
+  )
+}
+
+export default Country
