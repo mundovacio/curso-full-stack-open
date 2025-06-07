@@ -55,6 +55,13 @@ function App() {
     setCountry(exactMatch || null)
   }
 
+  const handleShowBtnClick = (commonName) => {
+    const exactMatch = filterCountries(commonName).find(
+      ({ name: { common } }) => common === commonName
+    )
+    setCountry(exactMatch || null)
+  }
+
   const filterCountries = (name) =>
     allCountries?.filter(({ name: { common } }) =>
       common.toLowerCase().includes(name.toLowerCase().trim())
@@ -74,7 +81,7 @@ function App() {
             <Country data={countries[0]} />
             :
             countries.length <= 10 ?
-              <CountriesMatched countries={countries} />
+              <CountriesMatched countries={countries} onClick={handleShowBtnClick} />
               :
               <p>Too many matches, specify another filter</p>
         )

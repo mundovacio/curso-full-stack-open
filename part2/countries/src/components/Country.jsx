@@ -1,7 +1,4 @@
 function Country({ data }) {
-
-  console.log(data);
-
   return (
     <>
       <h2>{data.name.common}</h2>
@@ -10,7 +7,7 @@ function Country({ data }) {
 
       <h3>Languages</h3>
       <ul>
-      {Object.values(data.languages).map(lang => <li key={lang}>{lang}</li>)}
+        {Object.values(data.languages).map(lang => <li key={lang}>{lang}</li>)}
       </ul>
 
       <img src={data.flags.png} alt={data.flags.alt} />
