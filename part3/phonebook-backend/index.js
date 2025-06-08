@@ -75,11 +75,19 @@ app.post('/api/persons', (req, res) => {
         })
     }
 
+    const personNameExist = persons.find(p => p.name === req.body.name)
+
+    if (personNameExist) {
+        return res.status(400).json({ error: 'name must be unique' })
+    }
+
     const person = {
         id: generateId(),
         name: req.body.name,
         number: req.body.number
     }
+
+    persons = [...persons, person]
 
     res.json(person)
 })
