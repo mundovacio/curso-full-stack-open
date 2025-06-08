@@ -1,8 +1,16 @@
 const express = require('express')
 const app = express()
 const PORT = 3001
+const morgan = require('morgan')
+
+// middleware to parse body request
 app.use(express.json())
 
+morgan.token('body', function getBody (req) {
+  return JSON.stringify(req.body)
+})
+
+app.use(morgan('Method :method \nPath :url \nStatus :status \nBody :body \nSize :res[content-length] - :response-time ms \n------'))
 
 // data
 let persons = [
@@ -97,6 +105,13 @@ app.delete('/api/persons/:id', (req, res) => {
     persons = persons.filter(p => p.id !== id)
     res.status(204).end()
 })
+
+
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
+
+app.use(unknownEndpoint)
 
 app.listen(PORT, () => console.log(`listening port: ${PORT}`))
 
