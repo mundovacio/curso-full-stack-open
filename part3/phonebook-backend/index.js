@@ -5,7 +5,7 @@ app.use(express.json())
 
 
 // data
-const persons = [
+let persons = [
     {
         "id": "1",
         "name": "Arto Hellas",
@@ -57,6 +57,11 @@ app.get('/api/persons/:id', (req, res) => {
 // add person
 
 // delete person
+app.delete('/api/persons/:id', (req, res) => {
+    const id = req.params.id
+    persons = persons.filter(p => p.id !== id)
+    res.status(204).end()
+})
 
 app.listen(PORT, () => console.log(`listening port: ${PORT}`))
 
