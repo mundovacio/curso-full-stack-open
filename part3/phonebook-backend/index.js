@@ -54,8 +54,35 @@ app.get('/api/persons/:id', (req, res) => {
     }
 })
 
-// add person
+const generateId = () => {
+    const newId = Math.floor(Math.random() * 1000)
+    const personExist = persons.find(p => p.id === newId)
+    return personExist ? generateId() : newId
+}
 
+// add person
+app.post('/api/persons', (req, res) => {
+
+    if (!req.body.name) {
+        return response.status(400).json({
+            error: 'name missing'
+        })
+    }
+
+    if (!req.body.number) {
+        return response.status(400).json({
+            error: 'number missing'
+        })
+    }
+
+    const person = {
+        id: generateId(),
+        name: req.body.name,
+        number: req.body.number
+    }
+
+    res.json(person)
+})
 // delete person
 app.delete('/api/persons/:id', (req, res) => {
     const id = req.params.id
