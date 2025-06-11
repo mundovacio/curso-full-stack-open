@@ -1,6 +1,5 @@
 const express = require('express')
 const app = express()
-const cors = require('cors')
 const morgan = require('morgan')
 const PORT = process.env.PORT || 3001
 
@@ -9,7 +8,6 @@ morgan.token('body', function getBody(req) {
 })
 
 app.use(morgan('Method :method \nPath :url \nStatus :status \nBody :body \nSize :res[content-length] - :response-time ms \n------'))
-app.use(cors())
 app.use(express.json())
 app.use(express.static('dist'))
 

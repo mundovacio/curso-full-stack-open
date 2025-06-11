@@ -3,15 +3,16 @@
   "version": "0.0.1",
   "main": "index.js",
   "scripts": {
+    "build:ui": "@powershell Remove-Item -Recurse -Force dist && cd ../../part2/notes && pnpm run build && @powershell Copy-Item dist -Recurse ../../part3/notes-backend",
     "start": "node index.js",
     "dev": "node --watch index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "pnpm run build:ui && render deploys create"
   },
   "author": "Pere Puig Solanilla",
   "license": "MIT",
   "description": "",
   "dependencies": {
-    "cors": "^2.8.5",
     "express": "^5.1.0",
     "morgan": "^1.10.0"
   }
