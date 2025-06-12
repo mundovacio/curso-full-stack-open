@@ -2,14 +2,15 @@ const express = require('express')
 const app = express()
 const PORT = 3001
 const morgan = require('morgan')
+const cors = require('cors')
 
 // middleware to parse body request
+app.use(cors())
 app.use(express.json())
 
-morgan.token('body', function getBody (req) {
-  return JSON.stringify(req.body)
+morgan.token('body', function getBody(req) {
+    return JSON.stringify(req.body)
 })
-
 app.use(morgan('Method :method \nPath :url \nStatus :status \nBody :body \nSize :res[content-length] - :response-time ms \n------'))
 
 // data
@@ -63,7 +64,7 @@ app.get('/api/persons/:id', (req, res) => {
 })
 
 const generateId = () => {
-    const newId = Math.floor(Math.random() * 1000)
+    const newId = String(Math.floor(Math.random() * 1000))
     const personExist = persons.find(p => p.id === newId)
     return personExist ? generateId() : newId
 }
@@ -108,7 +109,7 @@ app.delete('/api/persons/:id', (req, res) => {
 
 
 const unknownEndpoint = (request, response) => {
-  response.status(404).send({ error: 'unknown endpoint' })
+    response.status(404).send({ error: 'unknown endpoint' })
 }
 
 app.use(unknownEndpoint)
