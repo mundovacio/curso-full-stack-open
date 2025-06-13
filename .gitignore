@@ -17,6 +17,7 @@ pnpm-lock.yaml
 # Distribution directories
 dist/
 !part3/notes-backend/dist
+!part3/phonebook-backend/dist
 
 # Typescript v1 declaration files
 typings/
