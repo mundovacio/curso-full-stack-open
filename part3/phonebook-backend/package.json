@@ -3,6 +3,8 @@
 	"version": "0.0.1",
 	"main": "index.js",
 	"scripts": {
+		"build:ui": "powershell -Command \"Remove-Item -Recurse -Force dist -ErrorAction SilentlyContinue; cd ../../part2/phonebook; Remove-Item -Recurse -Force dist -ErrorAction SilentlyContinue; pnpm run build; Copy-Item -Recurse dist ../../part3/phonebook-backend\"",
+"deploy":"pnpm run build:ui && render create",
 		"start": "node index.js",
 		"dev": "node --watch index.js",
 		"test": "echo \"Error: no test specified\" && exit 1"

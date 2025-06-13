@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const PORT = 3001
+const PORT = process.env.PORT || 3001
 const morgan = require('morgan')
 const cors = require('cors')
 
@@ -100,6 +100,7 @@ app.post('/api/persons', (req, res) => {
 
     res.json(person)
 })
+
 // delete person
 app.delete('/api/persons/:id', (req, res) => {
     const id = req.params.id

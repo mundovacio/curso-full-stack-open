@@ -1,10 +1,10 @@
-# Phonebook App (Part 2)
+# Phonebook Frontend App (Part 2)
 
 This project is a phonebook application built with React and Vite as part of the [Full Stack Open](https://fullstackopen.com/) course by the University of Helsinki.
 
 ## Overview
 
-The Phonebook app allows users to add, update, filter, and remove contacts with names and phone numbers. It demonstrates React state management, effects, form handling, and communication with a backend server (JSON Server).
+The Phonebook app allows users to add, update, filter, and remove contacts with names and phone numbers. It demonstrates React state management, effects, form handling, and communication with a backend server.
 
 ## How to Run
 
@@ -22,14 +22,6 @@ The Phonebook app allows users to add, update, filter, and remove contacts with 
 
     The app will be available at [http://localhost:5173](http://localhost:5173).
 
-3. **Start the JSON server for backend (in a separate terminal):**
-
-    ```sh
-    npm run server
-    ```
-
-    This will start a mock backend at [http://localhost:3001/persons](http://localhost:3001/persons).
-
 ## Submitting Exercises
 
 Submit your completed exercises through the official portal:  
@@ -38,8 +30,6 @@ Submit your completed exercises through the official portal:
 ## Additional Notes
 
 - Node.js version: 18.x or newer is recommended.
-- The backend uses [JSON Server](https://github.com/typicode/json-server) for local development.
-- For later parts, you may need to connect to a real backend as described in the course material.
 
 ---
 
