@@ -13,6 +13,8 @@ morgan.token('body', function getBody(req) {
 })
 app.use(morgan('Method :method \nPath :url \nStatus :status \nBody :body \nSize :res[content-length] - :response-time ms \n------'))
 
+app.use('/', express.static('dist'))
+
 // data
 let persons = [
     {
