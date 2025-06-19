@@ -1,9 +1,10 @@
+require('dotenv').config()
 const express = require('express')
 const app = express()
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT
 const morgan = require('morgan')
 const cors = require('cors')
-
+const Person = require('./models/person')
 // middleware to parse body request
 app.use(cors())
 app.use(express.json())
@@ -14,30 +15,6 @@ morgan.token('body', function getBody(req) {
 app.use(morgan('Method :method \nPath :url \nStatus :status \nBody :body \nSize :res[content-length] - :response-time ms \n------'))
 
 app.use('/', express.static('dist'))
-
-// data
-let persons = [
-    {
-        "id": "1",
-        "name": "Arto Hellas",
-        "number": "040-123456"
-    },
-    {
-        "id": "2",
-        "name": "Ada Lovelace",
-        "number": "39-44-5323523"
-    },
-    {
-        "id": "3",
-        "name": "Dan Abramov",
-        "number": "12-43-234345"
-    },
-    {
-        "id": "4",
-        "name": "Mary Poppendieck",
-        "number": "39-23-6423122"
-    }
-]
 
 // routes
 app.get('/info', (req, res) => {
@@ -51,7 +28,9 @@ app.get('/info', (req, res) => {
 // api routes
 // get all persons
 app.get('/api/persons', (req, res) => {
-    res.json(persons)
+    Person.find({})
+        .then(result => res.json(result))
+
 })
 
 // get single person

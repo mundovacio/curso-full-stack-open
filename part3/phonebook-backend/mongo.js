@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-require('dotenv').config()
 
 switch (process.argv.length) {
 
@@ -99,9 +98,6 @@ function getAllPersons() {
             mongoose.connection.close()
         })
 }
-
-
-
 
 // adding initial data
 // let persons = [
