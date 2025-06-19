@@ -44,12 +44,6 @@ app.get('/api/persons/:id', (req, res) => {
     }
 })
 
-const generateId = () => {
-    const newId = String(Math.floor(Math.random() * 1000))
-    const personExist = persons.find(p => p.id === newId)
-    return personExist ? generateId() : newId
-}
-
 // add person
 app.post('/api/persons', async (req, res) => {
     const { name, number } = req.body;
