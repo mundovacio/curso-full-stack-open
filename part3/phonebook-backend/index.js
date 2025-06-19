@@ -51,36 +51,35 @@ const generateId = () => {
 }
 
 // add person
-app.post('/api/persons', (req, res) => {
+app.post('/api/persons', async (req, res) => {
+    const { name, number } = req.body;
 
-    if (!req.body.name) {
-        return response.status(400).json({
-            error: 'name missing'
-        })
+    if (!name) {
+        return res.status(400).json({ error: 'name missing' });
     }
 
-    if (!req.body.number) {
-        return response.status(400).json({
-            error: 'number missing'
-        })
+    if (!number) {
+        return res.status(400).json({ error: 'number missing' });
     }
 
-    const personNameExist = persons.find(p => p.name === req.body.name)
+    try {
+        const existing = await Person.find({ name });
 
-    if (personNameExist) {
-        return res.status(400).json({ error: 'name must be unique' })
+        if (existing.length) {
+            return res.status(400).json({ error: 'name must be unique' });
+        }
+
+        const person = new Person({ name, number });
+        const savedPerson = await person.save();
+
+        res.json(savedPerson);
+
+    } catch (error) {
+        console.error('Error: ', error);
+        res.status(500).json({ error: 'Error creating new entry' });
     }
+});
 
-    const person = {
-        id: generateId(),
-        name: req.body.name,
-        number: req.body.number
-    }
-
-    persons = [...persons, person]
-
-    res.json(person)
-})
 
 // delete person
 app.delete('/api/persons/:id', (req, res) => {
