@@ -67,8 +67,34 @@ app.post('/api/persons', async (req, res, next) => {
         res.json(savedPerson);
 
     } catch (error) {
-        console.error('Error: ', error);
-        res.status(500).json({ error: 'Error creating new entry' });
+        next(error)
+    }
+});
+
+
+// update person
+app.put('/api/persons/:id', async (req, res, next) => {
+    const { name, number } = req.body;
+
+    if (!name) {
+        return res.status(400).json({ error: 'name missing' });
+    }
+
+    if (!number) {
+        return res.status(400).json({ error: 'number missing' });
+    }
+
+    try {
+        const person = await Person.findById(req.params.id);
+        if (!person) {
+            return res.status(404).end()
+        }
+        person.name = name
+        person.number = number
+        const personUpdate = await person.save()
+        res.json(personUpdate);
+    } catch (error) {
+        next(error)
     }
 });
 
@@ -76,9 +102,9 @@ app.post('/api/persons', async (req, res, next) => {
 // delete person
 app.delete('/api/persons/:id', (req, res, next) => {
     Person.findByIdAndDelete(req.params.id)
-    .then(() => {
-        res.status(204).end()
-    }).catch(next)
+        .then(() => {
+            res.status(204).end()
+        }).catch(next)
 })
 
 
@@ -91,14 +117,14 @@ app.use(unknownEndpoint)
 // handler of requests with unknown endpoint
 app.use(unknownEndpoint)
 
-const errorHandler = (error, request, response, next) => {
-  console.error(error.message)
+const errorHandler = (error, req, res, next) => {
+    console.error(error.message)
 
-  if (error.name === 'CastError') {
-    return response.status(400).send({ error: 'malformatted id' })
-  } 
+    if (error.name === 'CastError') {
+        return res.status(400).send({ error: 'malformatted id' })
+    }
 
-  next(error)
+    next(error)
 }
 
 // handler of requests with result to errors
