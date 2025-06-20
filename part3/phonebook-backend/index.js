@@ -76,10 +76,11 @@ app.post('/api/persons', async (req, res) => {
 
 
 // delete person
-app.delete('/api/persons/:id', (req, res) => {
-    const id = req.params.id
-    persons = persons.filter(p => p.id !== id)
-    res.status(204).end()
+app.delete('/api/persons/:id', (req, res, next) => {
+    Person.findByIdAndDelete(req.params.id)
+    .then(() => {
+        res.status(204).end()
+    }).catch(next)
 })
 
 
@@ -88,6 +89,22 @@ const unknownEndpoint = (request, response) => {
 }
 
 app.use(unknownEndpoint)
+
+// handler of requests with unknown endpoint
+app.use(unknownEndpoint)
+
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
+
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' })
+  } 
+
+  next(error)
+}
+
+// handler of requests with result to errors
+app.use(errorHandler)
 
 app.listen(PORT, () => console.log(`listening port: ${PORT}`))
 
