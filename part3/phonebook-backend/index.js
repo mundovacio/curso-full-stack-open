@@ -14,11 +14,15 @@ app.use(requestLogger)
 
 
 // routes
-app.get('/info', (req, res) => {
-    res.send(`
-        <p>Phonebook has info for ${persons.length} people</p>
-        <p>${new Date()}</p>
-    `)
+app.get('/info', (req, res, next) => {
+    Person.find({})
+        .then(result => {
+            res.send(`
+                <p>Phonebook has info for ${result.length} people</p>
+                <p>${new Date()}</p>
+            `)
+        })
+        .catch(next)
 })
 
 
@@ -28,17 +32,16 @@ app.get('/api/persons', (req, res, next) => {
     Person.find({})
         .then(result => res.json(result))
         .catch(next)
-
 })
 
 // get single person
-app.get('/api/persons/:id', (req, res, next) => {
-    const id = req.params.id
-    const person = persons.find(p => p.id === id)
-    if (person) {
+app.get('/api/persons/:id', async (req, res, next) => {
+    try {
+        const person = await Person.findById(req.params.id)
+        if (!person) return res.status(404).end()
         res.json(person)
-    } else {
-        res.status(404).end()
+    } catch (error) {
+        next(error)
     }
 })
 
