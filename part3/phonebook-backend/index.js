@@ -3,18 +3,15 @@ const express = require('express')
 const app = express()
 const PORT = process.env.PORT
 const morgan = require('morgan')
-const cors = require('cors')
 const Person = require('./models/person')
-// middleware to parse body request
-app.use(cors())
+
+morgan.token('body', (req) => JSON.stringify(req.body, null, 4))
+const requestLogger = morgan('Method :method \nPath :url \nStatus :status \nBody :body \nSize :res[content-length] - :response-time ms \n------')
+
+app.use(express.static('dist'))
 app.use(express.json())
+app.use(requestLogger)
 
-morgan.token('body', function getBody(req) {
-    return JSON.stringify(req.body)
-})
-app.use(morgan('Method :method \nPath :url \nStatus :status \nBody :body \nSize :res[content-length] - :response-time ms \n------'))
-
-app.use('/', express.static('dist'))
 
 // routes
 app.get('/info', (req, res) => {
@@ -27,14 +24,15 @@ app.get('/info', (req, res) => {
 
 // api routes
 // get all persons
-app.get('/api/persons', (req, res) => {
+app.get('/api/persons', (req, res, next) => {
     Person.find({})
         .then(result => res.json(result))
+        .catch(next)
 
 })
 
 // get single person
-app.get('/api/persons/:id', (req, res) => {
+app.get('/api/persons/:id', (req, res, next) => {
     const id = req.params.id
     const person = persons.find(p => p.id === id)
     if (person) {
@@ -45,7 +43,7 @@ app.get('/api/persons/:id', (req, res) => {
 })
 
 // add person
-app.post('/api/persons', async (req, res) => {
+app.post('/api/persons', async (req, res, next) => {
     const { name, number } = req.body;
 
     if (!name) {
